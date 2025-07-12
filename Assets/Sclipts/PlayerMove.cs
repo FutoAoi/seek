@@ -9,11 +9,13 @@ public class PlayerMove : MonoBehaviour
     float x;
     float z;
 
-
+    private Transform tf;
     private Rigidbody rb;
+    private Quaternion CameraRtation;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        tf = GetComponent<Transform>();
     }
 
     void Update()
@@ -21,11 +23,12 @@ public class PlayerMove : MonoBehaviour
         x = Input.GetAxis("Horizontal");
         z = Input.GetAxis("Vertical");
 
-        Direction = new Vector3(x, 0, z).normalized;
+        CameraRtation = Quaternion.AngleAxis(Camera.main.transform.eulerAngles.y, Vector3.up);
+        Direction = CameraRtation * new Vector3(x, 0, z).normalized;
         
         if (Direction.magnitude > 0)
         {
-            //var angle = 
+            tf.rotation = Quaternion.LookRotation(Direction);
         }
     }
 
