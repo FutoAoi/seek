@@ -8,7 +8,7 @@ public class PlayerMove : MonoBehaviour
     Vector3 Direction;
     float x;
     float z;
-    Quaternion Rotation;
+
 
     private Rigidbody rb;
     void Start()
@@ -25,8 +25,7 @@ public class PlayerMove : MonoBehaviour
         
         if (Direction.magnitude > 0)
         {
-            Rotation = Quaternion.LookRotation(Direction, Vector3.up);
-            Quaternion.RotateTowards(transform.rotation, Rotation, RotateSpeed * Time.deltaTime);
+            //var angle = 
         }
     }
 
