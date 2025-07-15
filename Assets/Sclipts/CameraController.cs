@@ -16,7 +16,9 @@ public class CameraController : MonoBehaviour
     float scroll;
 
     Quaternion rotation;
-    Vector3 targetPosition;
+    RaycastHit hit;
+    Vector3 lookTarget;
+    Vector3 desiredCameraPos;
     private void Update()
     {
         scroll = Input.mouseScrollDelta.y;
@@ -32,8 +34,17 @@ public class CameraController : MonoBehaviour
         if (target == null) return;
 
         rotation = Quaternion.Euler(currentY, currentX, 0);
-        targetPosition = target.position + Vector3.up * height - rotation * Vector3.forward * distance;
-        transform.position = targetPosition;
-        transform.LookAt(target.position + Vector3.up * height);
+        lookTarget = target.position + Vector3.up * height;
+        desiredCameraPos = lookTarget - rotation * Vector3.forward * distance;
+        if (Physics.Raycast(lookTarget, desiredCameraPos - lookTarget, out hit, distance))
+        {
+            transform.position = hit.point - (desiredCameraPos - lookTarget).normalized * 0.1f;
+        }
+        else
+        {
+            transform.position = desiredCameraPos;
+        }
+
+        transform.LookAt(lookTarget);
     }
 }

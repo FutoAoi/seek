@@ -1,12 +1,9 @@
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField] float PlayerSpeed = 10f;
     [SerializeField] float RotateSpeed = 10f;
-
-    [SerializeField] Transform cameraRoot;
 
     float x;
     float z;
@@ -14,10 +11,13 @@ public class PlayerMove : MonoBehaviour
     Quaternion rotate;
     Vector3 Move;
 
-    private Rigidbody rb;
+    bool _iswalk = false;
+    Animator anm;
+    Rigidbody rb;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        anm = GetComponent<Animator>();
     }
 
     void Update()
@@ -27,6 +27,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Mover()
     {
+        _iswalk = false ;
         x = Input.GetAxis("Horizontal");
         z = Input.GetAxis("Vertical");
 
@@ -38,14 +39,15 @@ public class PlayerMove : MonoBehaviour
         {
             rotation = Quaternion.LookRotation(CameraForward);
         }
-
         Move = rotation * new Vector3(x, 0, z);
         if (Move.magnitude >= 0.01f)
         {
             rotate = Quaternion.LookRotation(Move);
+            _iswalk = true;
         }
-        if (Move == Vector3.zero) return;
+        //if (Move == Vector3.zero) return;
         transform.rotation = rotate;
+        anm.SetBool("Walk", _iswalk);
     }
 
     private void FixedUpdate()
