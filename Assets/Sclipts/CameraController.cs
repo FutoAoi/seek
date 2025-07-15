@@ -2,33 +2,38 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [Header("マウス感度"),SerializeField] public float MouseSensitivity = 100f;
-    [SerializeField] float MinPitch = -45f;
-    [SerializeField] float MaxPitch = 60f;
-    
-    [SerializeField] Transform CameraTransform;
+    [Header("追従するターゲット"),SerializeField] Transform target;        
+    [Header("マウス感度"),SerializeField] float rotateSpeed = 3f;  
 
-    float pitch = 0f;
-    float mouseX;
-    float mouseY;
-    Vector3 rightAxis;
-        
-    void Start()
+    float distance = 5f;     
+    float height = 2f;       
+    float currentX = 0f;    
+    float currentY = 15f;   
+    float minY = -20f;       
+    float maxY = 80f;        
+    float minDistance = 1f;
+    float maxDistance = 7f;
+    float scroll;
+
+    Quaternion rotation;
+    Vector3 targetPosition;
+    private void Update()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        scroll = Input.mouseScrollDelta.y;
+        distance -= scroll * 0.5f;
+        distance = Mathf.Clamp(distance, minDistance, maxDistance);
+
+        currentX += Input.GetAxis("Mouse X") * rotateSpeed;
+        currentY -= Input.GetAxis("Mouse Y") * rotateSpeed;
+        currentY = Mathf.Clamp(currentY, minY, maxY);
     }
-
-    void Update()
+    void LateUpdate()
     {
-        mouseX = Input.GetAxis("Mouse X") * MouseSensitivity * Time.deltaTime;
-        mouseY = Input.GetAxis("Mouse Y") * MouseSensitivity * Time.deltaTime;
+        if (target == null) return;
 
-        transform.Rotate(Vector3.up * mouseX);
-
-        pitch -= mouseY;
-        pitch = Mathf.Clamp(pitch, MinPitch, MaxPitch);
-
-        rightAxis = CameraTransform.right;
-        CameraTransform.localRotation = Quaternion.AngleAxis(pitch, Vector3.right);
+        rotation = Quaternion.Euler(currentY, currentX, 0);
+        targetPosition = target.position + Vector3.up * height - rotation * Vector3.forward * distance;
+        transform.position = targetPosition;
+        transform.LookAt(target.position + Vector3.up * height);
     }
 }

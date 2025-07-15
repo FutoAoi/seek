@@ -1,39 +1,55 @@
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField] float PlayerSpeed = 10f;
-    [SerializeField] float RotateSpeed = 50f;
+    [SerializeField] float RotateSpeed = 10f;
 
-    Vector3 Direction;
+    [SerializeField] Transform cameraRoot;
+
     float x;
     float z;
+    Quaternion rotation;
+    Quaternion rotate;
+    Vector3 Move;
 
-    private Transform tf;
     private Rigidbody rb;
-    private Quaternion CameraRtation;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        tf = GetComponent<Transform>();
     }
 
     void Update()
     {
+        Mover();
+    }
+
+    private void Mover()
+    {
         x = Input.GetAxis("Horizontal");
         z = Input.GetAxis("Vertical");
 
-        CameraRtation = Quaternion.AngleAxis(Camera.main.transform.eulerAngles.y, Vector3.up);
-        Direction = CameraRtation * new Vector3(x, 0, z).normalized;
-        
-        if (Direction.magnitude > 0)
+        Vector3 CameraForward = Camera.main.transform.forward;
+        CameraForward.y = 0;
+        CameraForward.Normalize();
+
+        if (CameraForward.magnitude >= 0.01f)
         {
-            tf.rotation = Quaternion.LookRotation(Direction);
+            rotation = Quaternion.LookRotation(CameraForward);
         }
+
+        Move = rotation * new Vector3(x, 0, z);
+        if (Move.magnitude >= 0.01f)
+        {
+            rotate = Quaternion.LookRotation(Move);
+        }
+        if (Move == Vector3.zero) return;
+        transform.rotation = rotate;
     }
 
     private void FixedUpdate()
     {
-        rb.MovePosition(rb.position + Direction * PlayerSpeed * Time.fixedDeltaTime);
+        rb.velocity = Move * PlayerSpeed * Time.deltaTime;
     }
 }
