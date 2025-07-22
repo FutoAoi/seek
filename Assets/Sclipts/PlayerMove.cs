@@ -6,91 +6,103 @@ public class PlayerMove : MonoBehaviour
 {
     [SerializeField] float PlayerSpeed = 10f;
     [SerializeField] float PlayerMaxStamina = 10f;
+    [SerializeField] GameObject StaminaGauge;
 
-    float PlayerStamina;
-    float RunSpeed = 1f;
+    float currentStamina;
+    float runMultiplier = 1f;
+    float staminaMaxScale;
+
     float x;
     float z;
-    Quaternion rotation;
-    Quaternion rotate;
-    Vector3 Move;
-    Vector3 CameraForward;
-    Color DefaultColor;
 
-    bool _isWalk = false;
-    bool _isRun = false;
-    bool _isTire = false;
+    Quaternion cameraRotation;
+    Quaternion moveRotation;
+    Vector3 direction;
+    Vector3 cameraForward;
+
+    bool _isWalking = false;
+    bool _isRunning = false;
+    bool _isTired = false;
+
     Animator anm;
     Rigidbody rb;
-    SpriteRenderer spriteRenderer;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         anm = GetComponent<Animator>();
-        PlayerStamina = PlayerMaxStamina;
+        currentStamina = PlayerMaxStamina;
+        staminaMaxScale = StaminaGauge.transform.localScale.x;
     }
 
     void Update()
     {
-        Mover();
+        Movement();
     }
 
-    private void Mover()
+    private void Movement()
     {
-        _isWalk = false ;
-        _isRun = false ;
+        _isWalking = false ;
+        _isRunning = false ;
+
         x = Input.GetAxis("Horizontal");
         z = Input.GetAxis("Vertical");
 
-        CameraForward = Camera.main.transform.forward;
-        CameraForward.y = 0;
-        CameraForward.Normalize();
-        RunSpeed = 1f;
-        rotation = Quaternion.LookRotation(CameraForward);
-        Move = rotation * new Vector3(x, 0, z);
+        cameraForward = Camera.main.transform.forward;
+        cameraForward.y = 0;
+        cameraForward.Normalize();
 
-        if (Move.magnitude >= 0.01f)
+        cameraRotation = Quaternion.LookRotation(cameraForward);
+        direction = cameraRotation * new Vector3(x, 0, z);
+
+        if (direction.magnitude >= 0.1f)
         {
-            rotate = Quaternion.LookRotation(Move);
-            _isWalk = true;
-        }
-        transform.rotation = rotate;
-        anm.SetBool("Walk", _isWalk);
-        if (_isTire)
-        {
-            RunSpeed = 0.5f;
+            moveRotation = Quaternion.LookRotation(direction);
+            _isWalking = true;
+            transform.rotation = moveRotation;
         }
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        anm.SetBool("Walk", _isWalking);
+
+        if (_isTired)
         {
-            RunSpeed = 2f;
-            PlayerStamina -= Time.deltaTime;
-            _isRun = true;
-            if (PlayerStamina < 0f)
+            runMultiplier = 0.5f;
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift) && !_isTired)
+        {
+            runMultiplier = 2f;
+            currentStamina -= Time.deltaTime;
+            _isRunning = true;
+            if (currentStamina < 0f)
             {
-                StartCoroutine("Tired");
-                Debug.Log("”æ‚ê‚½");
+                StartCoroutine(Tired());
             }
         }
-
-        if ( !_isRun && PlayerStamina != PlayerMaxStamina)
+        else
         {
-            PlayerStamina += Time.deltaTime;
-            if (PlayerStamina > PlayerMaxStamina)
+            if (currentStamina < PlayerMaxStamina)
             {
-                PlayerStamina = PlayerMaxStamina;
+                currentStamina += Time.deltaTime * 0.8f;
+                if (currentStamina > PlayerMaxStamina)
+                {
+                    currentStamina = PlayerMaxStamina;
+                }
             }
         }
+        Vector3 scale = StaminaGauge.transform.localScale;
+        scale.x = staminaMaxScale * currentStamina / PlayerMaxStamina;
+        StaminaGauge.transform.localScale = scale;
     }
 
     private IEnumerator Tired()
     {
-        _isTire = true;
+        _isTired = true;
         yield return new WaitForSeconds(5f);
-        _isTire = false;
+        _isTired = false;
     }
     private void FixedUpdate()
     {
-        rb.velocity = Move * PlayerSpeed * Time.deltaTime * RunSpeed;
+        rb.velocity = direction * PlayerSpeed * Time.deltaTime * runMultiplier;
     }
 }

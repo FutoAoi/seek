@@ -53,7 +53,6 @@ public class EnemyAI : MonoBehaviour
         Ray ray = new Ray(transform.position, directionToPlayer.normalized);
         if (Physics.Raycast(ray, out RaycastHit hit, viewDistance))
         {
-            // ƒvƒŒƒCƒ„[‚É“–‚½‚Á‚½‚ç”­Œ©
             if (hit.transform == Player)
             {
                 return true;
