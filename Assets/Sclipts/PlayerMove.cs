@@ -1,23 +1,33 @@
+using System.Collections;
+using Unity.VisualScripting.ReorderableList.Element_Adder_Menu;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField] float PlayerSpeed = 10f;
-    [SerializeField] float RotateSpeed = 10f;
+    [SerializeField] float PlayerMaxStamina = 10f;
 
+    float PlayerStamina;
+    float RunSpeed = 1f;
     float x;
     float z;
     Quaternion rotation;
     Quaternion rotate;
     Vector3 Move;
+    Vector3 CameraForward;
+    Color DefaultColor;
 
-    bool _iswalk = false;
+    bool _isWalk = false;
+    bool _isRun = false;
+    bool _isTire = false;
     Animator anm;
     Rigidbody rb;
+    SpriteRenderer spriteRenderer;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         anm = GetComponent<Animator>();
+        PlayerStamina = PlayerMaxStamina;
     }
 
     void Update()
@@ -27,31 +37,60 @@ public class PlayerMove : MonoBehaviour
 
     private void Mover()
     {
-        _iswalk = false ;
+        _isWalk = false ;
+        _isRun = false ;
         x = Input.GetAxis("Horizontal");
         z = Input.GetAxis("Vertical");
 
-        Vector3 CameraForward = Camera.main.transform.forward;
+        CameraForward = Camera.main.transform.forward;
         CameraForward.y = 0;
         CameraForward.Normalize();
-
-        if (CameraForward.magnitude >= 0.01f)
-        {
-            rotation = Quaternion.LookRotation(CameraForward);
-        }
+        RunSpeed = 1f;
+        rotation = Quaternion.LookRotation(CameraForward);
         Move = rotation * new Vector3(x, 0, z);
+
         if (Move.magnitude >= 0.01f)
         {
             rotate = Quaternion.LookRotation(Move);
-            _iswalk = true;
+            _isWalk = true;
         }
-        //if (Move == Vector3.zero) return;
         transform.rotation = rotate;
-        anm.SetBool("Walk", _iswalk);
+        anm.SetBool("Walk", _isWalk);
+        if (_isTire)
+        {
+            RunSpeed = 0.5f;
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            RunSpeed = 2f;
+            PlayerStamina -= Time.deltaTime;
+            _isRun = true;
+            if (PlayerStamina < 0f)
+            {
+                StartCoroutine("Tired");
+                Debug.Log("”æ‚ê‚½");
+            }
+        }
+
+        if ( !_isRun && PlayerStamina != PlayerMaxStamina)
+        {
+            PlayerStamina += Time.deltaTime;
+            if (PlayerStamina > PlayerMaxStamina)
+            {
+                PlayerStamina = PlayerMaxStamina;
+            }
+        }
     }
 
+    private IEnumerator Tired()
+    {
+        _isTire = true;
+        yield return new WaitForSeconds(5f);
+        _isTire = false;
+    }
     private void FixedUpdate()
     {
-        rb.velocity = Move * PlayerSpeed * Time.deltaTime;
+        rb.velocity = Move * PlayerSpeed * Time.deltaTime * RunSpeed;
     }
 }
