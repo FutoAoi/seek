@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting.ReorderableList.Element_Adder_Menu;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -44,6 +43,7 @@ public class PlayerMove : MonoBehaviour
     {
         _isWalking = false ;
         _isRunning = false ;
+        runMultiplier = 1f;
 
         x = Input.GetAxis("Horizontal");
         z = Input.GetAxis("Vertical");
@@ -61,8 +61,6 @@ public class PlayerMove : MonoBehaviour
             _isWalking = true;
             transform.rotation = moveRotation;
         }
-
-        anm.SetBool("Walk", _isWalking);
 
         if (_isTired)
         {
@@ -93,6 +91,9 @@ public class PlayerMove : MonoBehaviour
         Vector3 scale = StaminaGauge.transform.localScale;
         scale.x = staminaMaxScale * currentStamina / PlayerMaxStamina;
         StaminaGauge.transform.localScale = scale;
+
+        anm.SetBool("Walk", _isWalking);
+        anm.SetBool("Run", _isRunning);
     }
 
     private IEnumerator Tired()
