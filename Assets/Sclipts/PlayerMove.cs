@@ -1,17 +1,25 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField] float PlayerSpeed = 10f;
+    [SerializeField] float PlayerMaxHp = 100f;
     [SerializeField] float PlayerMaxStamina = 10f;
+    [SerializeField] GameObject HpGauge;
     [SerializeField] GameObject StaminaGauge;
     [SerializeField] GameObject MiniMap;
+
+    [HideInInspector] public float currentHp;
+    float HpMaxscale;
+    Vector3 currentHpScale;
 
     float currentStamina;
     float runMultiplier = 1f;
     float staminaMaxScale;
+    Vector3 currentStaminaScale;
 
     float x;
     float z;
@@ -38,8 +46,12 @@ public class PlayerMove : MonoBehaviour
         Inventory = GetComponent<Inventory>();
         rb = GetComponent<Rigidbody>();
         anm = GetComponent<Animator>();
+        currentHp = PlayerMaxHp;
+        HpMaxscale = HpGauge.transform.localScale.x;
         currentStamina = PlayerMaxStamina;
         staminaMaxScale = StaminaGauge.transform.localScale.x;
+        currentStaminaScale = StaminaGauge.transform.localScale;
+        currentHpScale = HpGauge.transform.localScale;
     }
 
     void Update()
@@ -47,6 +59,10 @@ public class PlayerMove : MonoBehaviour
         Movement();
         PickUp();
         Map();
+        if(currentHp < 0)
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 
     private void Movement()
@@ -98,9 +114,11 @@ public class PlayerMove : MonoBehaviour
                 }
             }
         }
-        Vector3 scale = StaminaGauge.transform.localScale;
-        scale.x = staminaMaxScale * currentStamina / PlayerMaxStamina;
-        StaminaGauge.transform.localScale = scale;
+        currentStaminaScale.x = staminaMaxScale * currentStamina / PlayerMaxStamina;
+        StaminaGauge.transform.localScale = currentStaminaScale;
+
+        currentHpScale.x = HpMaxscale * currentHp / PlayerMaxHp;
+        HpGauge.transform.localScale = currentHpScale;
 
         anm.SetBool("Walk", _isWalking);
         anm.SetBool("Run", _isRunning);

@@ -17,10 +17,12 @@ public class EnemyAI : MonoBehaviour
     Vector3 directionToPlayer;
     Quaternion rotate;
     Transform transformPlayer;
+    PlayerMove PlayerMove;
 
     private void Start()
     {
         transformPlayer = Player.GetComponent<Transform>();
+        PlayerMove = Player.GetComponent<PlayerMove>();
     }
     private void Update()
     {
@@ -30,6 +32,7 @@ public class EnemyAI : MonoBehaviour
             Quaternion InSightRotate = Quaternion.LookRotation(directionToPlayer);
             transform.rotation = InSightRotate;
             transform.position += directionToPlayer.normalized * moveSpeed * Time.deltaTime;
+            PlayerMove.currentHp -= 0.5f;
             Debug.Log("å©Ç¬Ç©Ç¡ÇΩÅI");
         }
         else
