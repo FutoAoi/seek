@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    [Header("プレイヤー"), SerializeField] Transform Player;
+    [Header("プレイヤー"), SerializeField] GameObject Player;
     [Header("パトロールチェックポイント"), SerializeField] Transform[] PatrolPoint;
     [Header("敵の数値")]
     [SerializeField] float moveSpeed = 2;
@@ -16,11 +16,20 @@ public class EnemyAI : MonoBehaviour
     Vector3 direction;
     Vector3 directionToPlayer;
     Quaternion rotate;
+    Transform transformPlayer;
 
+    private void Start()
+    {
+        transformPlayer = Player.GetComponent<Transform>();
+    }
     private void Update()
     {
         if (InSight())
         {
+            directionToPlayer.y = 0;
+            Quaternion InSightRotate = Quaternion.LookRotation(directionToPlayer);
+            transform.rotation = InSightRotate;
+            transform.position += directionToPlayer.normalized * moveSpeed * Time.deltaTime;
             Debug.Log("見つかった！");
         }
         else
@@ -37,7 +46,7 @@ public class EnemyAI : MonoBehaviour
     void Patrol()
     {
         targetPoint = PatrolPoint[pointIndex];
-        direction = targetPoint.position - transform.position;
+        direction = targetPoint .position - transform.position;
         rotate = Quaternion.LookRotation(direction);
         transform.rotation = rotate;
         transform.position += direction.normalized * moveSpeed * Time.deltaTime;
@@ -49,7 +58,7 @@ public class EnemyAI : MonoBehaviour
 
     bool InSight()
     {
-        directionToPlayer = Player.position - transform.position;
+        directionToPlayer = transformPlayer.position - transform.position;
         distanceToPlayer = directionToPlayer.magnitude;
 
         if (distanceToPlayer > viewDistance) return false;
@@ -61,7 +70,7 @@ public class EnemyAI : MonoBehaviour
         Ray ray = new Ray(eyePosition, directionToPlayer.normalized);
         if (Physics.Raycast(ray, out RaycastHit hit, viewDistance))
         {
-            if (hit.transform == Player)
+            if (hit.transform == transformPlayer)
             {
                 return true;
             }
@@ -72,7 +81,7 @@ public class EnemyAI : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        if (Player == null) return;
+        if (transformPlayer == null) return;
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, viewDistance);
@@ -87,7 +96,7 @@ public class EnemyAI : MonoBehaviour
 
     void DrawViewCone()
     {
-        if (Player == null) return;
+        if (transformPlayer == null) return;
 
         // 敵の現在の位置
         Vector3 pos = transform.position;
