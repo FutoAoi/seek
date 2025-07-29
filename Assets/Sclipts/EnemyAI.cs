@@ -19,10 +19,13 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
-        Patrol();
         if (InSight())
         {
             Debug.Log("å©Ç¬Ç©Ç¡ÇΩÅI");
+        }
+        else
+        {
+            Patrol();
         }
     }
 
@@ -37,7 +40,7 @@ public class EnemyAI : MonoBehaviour
         direction = targetPoint.position - transform.position;
         rotate = Quaternion.LookRotation(direction);
         transform.rotation = rotate;
-        transform.position += direction * moveSpeed * Time.deltaTime;
+        transform.position += direction.normalized * moveSpeed * Time.deltaTime;
         if (Vector3.Distance(transform.position, targetPoint.position) < 0.2f)
         {
             pointIndex = (pointIndex + 1) % PatrolPoint.Length;

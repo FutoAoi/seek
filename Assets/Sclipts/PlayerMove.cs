@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -6,6 +7,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] float PlayerSpeed = 10f;
     [SerializeField] float PlayerMaxStamina = 10f;
     [SerializeField] GameObject StaminaGauge;
+    [SerializeField] GameObject MiniMap;
 
     float currentStamina;
     float runMultiplier = 1f;
@@ -22,12 +24,18 @@ public class PlayerMove : MonoBehaviour
     bool _isWalking = false;
     bool _isRunning = false;
     bool _isTired = false;
+    bool _isMap = false;
+
+    GameObject targetItem;
+    PickUpItem PickUpItem;
+    Inventory Inventory;
 
     Animator anm;
     Rigidbody rb;
 
     void Start()
     {
+        Inventory = GetComponent<Inventory>();
         rb = GetComponent<Rigidbody>();
         anm = GetComponent<Animator>();
         currentStamina = PlayerMaxStamina;
@@ -37,6 +45,8 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         Movement();
+        PickUp();
+        Map();
     }
 
     private void Movement()
@@ -102,8 +112,58 @@ public class PlayerMove : MonoBehaviour
         yield return new WaitForSeconds(5f);
         _isTired = false;
     }
+
+    private void PickUp()
+    {
+        if (targetItem != null && Input.GetKeyDown(KeyCode.E))
+        {
+            Inventory.AddItem(PickUpItem.ItemData);
+            Destroy(targetItem);
+            PickUpItem = null;
+            targetItem = null;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Item"))
+        {
+            targetItem = other.gameObject;
+            PickUpItem = targetItem.GetComponent<PickUpItem>();
+            if (PickUpItem != null)
+            {
+                Debug.Log("近づいたアイテム：" + PickUpItem.ItemData.ItemName);
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.CompareTag("Item"))
+        {
+            targetItem = null;
+            PickUpItem = null;
+        }
+    }
     private void FixedUpdate()
     {
         rb.velocity = direction * PlayerSpeed * Time.deltaTime * runMultiplier;
+    }
+    void Map()
+    {
+        _isMap = false;
+        if(Input.GetKey(KeyCode.Tab))
+        {
+            _isMap = true;
+            runMultiplier = 0.2f;
+        }
+        if(_isMap)
+        {
+            MiniMap.SetActive(true);
+        }
+        else
+        {
+            MiniMap.SetActive(false);
+        }
     }
 }
