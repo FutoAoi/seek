@@ -1,4 +1,7 @@
+using System.Collections;
+using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -8,10 +11,8 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] float moveSpeed = 2;
     [SerializeField] float viewDistance = 10f;
     [SerializeField] float viewAngle = 60f;
-
     int pointIndex;
     float distanceToPlayer;
-
     Transform targetPoint;
     Vector3 direction;
     Vector3 directionToPlayer;
@@ -23,6 +24,7 @@ public class EnemyAI : MonoBehaviour
     {
         transformPlayer = Player.GetComponent<Transform>();
         PlayerMove = Player.GetComponent<PlayerMove>();
+        
     }
     private void Update()
     {

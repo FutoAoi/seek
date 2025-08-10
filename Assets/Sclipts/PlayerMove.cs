@@ -7,7 +7,7 @@ public class PlayerMove : MonoBehaviour
 {
     [SerializeField] float PlayerSpeed = 10f;
     [SerializeField] float PlayerMaxHp = 100f;
-    [SerializeField] float PlayerMaxStamina = 10f;
+    [SerializeField] float PlayerMaxStamina = 5f;
     [SerializeField] GameObject HpGauge;
     [SerializeField] GameObject StaminaGauge;
     [SerializeField] GameObject MiniMap;
