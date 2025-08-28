@@ -24,7 +24,6 @@ public class EnemyAI : MonoBehaviour
     {
         transformPlayer = Player.GetComponent<Transform>();
         PlayerMove = Player.GetComponent<PlayerMove>();
-        
     }
     private void Update()
     {
