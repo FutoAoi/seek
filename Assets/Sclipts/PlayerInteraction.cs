@@ -6,6 +6,7 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] Camera _playerCamera;
     [SerializeField] float _interactDistance = 3f;
     [SerializeField] KeyCode _interactKey = KeyCode.F;
+
     [Header("UIê›íË")]
     [SerializeField] TMP_Text _interactText;
 

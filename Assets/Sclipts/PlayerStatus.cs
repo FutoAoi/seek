@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -8,9 +9,11 @@ public class PlayerStatus : MonoBehaviour
 {
     [Header("HP設定")]
     [SerializeField] int _maxHp = 100;
+    [SerializeField] GameObject _hpGauge;
     
     [Header("スタミナ設定")]
     [SerializeField] int _maxSutamina = 100;
+    [SerializeField] GameObject _sutaminaGauge;
 
     int _currentHp,_currentSutamina;
     void Start()

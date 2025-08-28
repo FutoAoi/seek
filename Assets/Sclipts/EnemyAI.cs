@@ -11,6 +11,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] float moveSpeed = 2;
     [SerializeField] float viewDistance = 10f;
     [SerializeField] float viewAngle = 60f;
+
     int pointIndex;
     float distanceToPlayer;
     Transform targetPoint;
@@ -18,12 +19,13 @@ public class EnemyAI : MonoBehaviour
     Vector3 directionToPlayer;
     Quaternion rotate;
     Transform transformPlayer;
-    PlayerMove PlayerMove;
+    PlayerStatus _playerStatus;
 
     private void Start()
     {
+        Player = GameObject.FindGameObjectWithTag("Player");
         transformPlayer = Player.GetComponent<Transform>();
-        PlayerMove = Player.GetComponent<PlayerMove>();
+        _playerStatus = Player.GetComponent<PlayerStatus>();
     }
     private void Update()
     {
@@ -33,7 +35,7 @@ public class EnemyAI : MonoBehaviour
             Quaternion InSightRotate = Quaternion.LookRotation(directionToPlayer);
             transform.rotation = InSightRotate;
             transform.position += directionToPlayer.normalized * moveSpeed * Time.deltaTime;
-            PlayerMove.currentHp -= 0.5f;
+            _playerStatus.TakeDamage(1);
             Debug.Log("å©Ç¬Ç©Ç¡ÇΩÅI");
         }
         else

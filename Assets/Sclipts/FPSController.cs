@@ -13,6 +13,7 @@ public class FPSController : MonoBehaviour
     float x, z;
     float xRot, yRot;
     float _clanpYRot;
+    //bool _isWalking = false, _isRunnig = false;
     Vector3 _direction;
     Vector3 _cameraForward;
     Quaternion _cameraRot, _playerRot;
