@@ -6,8 +6,8 @@ public class MapCreator : MonoBehaviour
 {
     [SerializeField] public List<GameObject> MapDates;
     [SerializeField] int _mapSize = 25;
-    [SerializeField] int _mapVertical = 3;
-    [SerializeField] int _mapHorizontal = 3;
+    [SerializeField] int _mapVertical = 2;
+    [SerializeField] int _mapHorizontal = 2;
     void Start()
     {
         for (int i = 0; i < _mapHorizontal; i++)
