@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -11,70 +10,34 @@ public class PlayerInteraction : MonoBehaviour
     [Header("UIê›íË")]
     [SerializeField] TMP_Text _interactText;
 
-    GameObject _targetItem;
-    PickUpItem _pickUpItem;
-    Inventory _inventory;
-    bool _home = false;
-    bool _danjon = false;
-
-    private void Start()
-    {
-        _inventory = GetComponent<Inventory>();
-    }
+    IInteractable _target;
 
     private void Update()
     {
-        CheckItem();
-        if(Input.GetKeyDown(_interactKey))
+        CheckInteraction();
+        if(_target != null && Input.GetKeyDown(_interactKey))
         {
-            if(_pickUpItem != null)
-            {
-                _inventory.AddItem(_pickUpItem.ItemData);
-                Destroy(_targetItem);
-            }
-            if(_home)
-            {
-                SceneManager.LoadScene(2);
-            }
-            if (_danjon)
-            {
-                SceneManager.LoadScene(1);
-            }
+            _target.Interact(this);
         }
     }
 
-    private void CheckItem()
+    private void CheckInteraction()
     {
         Ray ray = new Ray(_playerCamera.transform.position, _playerCamera.transform.forward);
         RaycastHit hit;
 
         if(Physics.Raycast(ray, out hit, _interactDistance))
         {
-            _targetItem = hit.collider.gameObject;
-            _pickUpItem = _targetItem.GetComponent<PickUpItem>();
-            if( _pickUpItem != null )
+            _target = hit.collider.GetComponent<IInteractable>();
+
+            if( _target != null )
             {
-                ShowText("[F]" + _pickUpItem.ItemData.ItemName + "ÇèEÇ§");
+                ShowText(_target.GetInteractText());
                 return;
             }
 
-            if (hit.collider.CompareTag("Home"))
-            {
-                ShowText("[F]ãíì_Ç…ñﬂÇÈ");
-                _home = true;
-                return;
-            }
-
-            if (hit.collider.CompareTag("Danjon"))
-            {
-                ShowText("[F]É_ÉìÉWÉáÉìÇ…êˆÇÈ");
-                _danjon = true;
-                return;
-            }
         }
-        _targetItem = null;
-        _pickUpItem = null;
-        _home = false;
+        _target = null;
         HideText();
     }
 
