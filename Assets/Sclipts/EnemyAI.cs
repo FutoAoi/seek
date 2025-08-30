@@ -35,7 +35,7 @@ public class EnemyAI : MonoBehaviour
             Quaternion InSightRotate = Quaternion.LookRotation(directionToPlayer);
             transform.rotation = InSightRotate;
             transform.position += directionToPlayer.normalized * moveSpeed * Time.deltaTime;
-            _playerStatus.TakeDamage(1);
+            _playerStatus.TakeDamage(0);
             Debug.Log("å©Ç¬Ç©Ç¡ÇΩÅI");
         }
         else

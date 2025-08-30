@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class PlayerInteraction : MonoBehaviour
     GameObject _targetItem;
     PickUpItem _pickUpItem;
     Inventory _inventory;
+    bool _home = false;
+    bool _danjon = false;
 
     private void Start()
     {
@@ -22,10 +25,21 @@ public class PlayerInteraction : MonoBehaviour
     private void Update()
     {
         CheckItem();
-        if(Input.GetKeyDown(_interactKey) && _pickUpItem != null)
+        if(Input.GetKeyDown(_interactKey))
         {
-            _inventory.AddItem(_pickUpItem.ItemData);
-            Destroy(_targetItem);
+            if(_pickUpItem != null)
+            {
+                _inventory.AddItem(_pickUpItem.ItemData);
+                Destroy(_targetItem);
+            }
+            if(_home)
+            {
+                SceneManager.LoadScene(2);
+            }
+            if (_danjon)
+            {
+                SceneManager.LoadScene(1);
+            }
         }
     }
 
@@ -43,9 +57,24 @@ public class PlayerInteraction : MonoBehaviour
                 ShowText("[F]" + _pickUpItem.ItemData.ItemName + "ÇèEÇ§");
                 return;
             }
+
+            if (hit.collider.CompareTag("Home"))
+            {
+                ShowText("[F]ãíì_Ç…ñﬂÇÈ");
+                _home = true;
+                return;
+            }
+
+            if (hit.collider.CompareTag("Danjon"))
+            {
+                ShowText("[F]É_ÉìÉWÉáÉìÇ…êˆÇÈ");
+                _danjon = true;
+                return;
+            }
         }
         _targetItem = null;
         _pickUpItem = null;
+        _home = false;
         HideText();
     }
 

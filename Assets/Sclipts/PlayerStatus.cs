@@ -16,6 +16,7 @@ public class PlayerStatus : MonoBehaviour
     [SerializeField] GameObject _sutaminaGauge;
 
     int _currentHp,_currentSutamina;
+    float _maxHpGaugeScale, _maxStaminaGaugeScale;
     void Start()
     {
         _currentHp = _maxHp;
