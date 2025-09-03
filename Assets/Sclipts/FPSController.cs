@@ -32,6 +32,11 @@ public class FPSController : MonoBehaviour
 
     void Update()
     {
+        if (Xsensityvity != GameManager.Instance.Sens && Ysensityvity != GameManager.Instance.Sens)
+        {
+            Xsensityvity = GameManager.Instance.Sens;
+            Ysensityvity = GameManager.Instance.Sens;
+        }
         if (Inventory.Instance == null || Inventory.Instance.InventoryUI == null)
         {
             return;

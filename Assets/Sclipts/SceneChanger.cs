@@ -8,4 +8,8 @@ public class SceneChanger : MonoBehaviour
     {
         SceneManager.LoadScene(_sceneIndex);
     }
+    public void OnOption()
+    {
+        GameManager.Instance.OpenOption();
+    }
 }

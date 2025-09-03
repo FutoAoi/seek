@@ -14,7 +14,7 @@ TagManager:
   - player
   - Water
   - UI
-  - 
+  - Option
   - 
   - 
   - 
@@ -41,6 +41,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Option
+    uniqueID: 2743866065
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
