@@ -7,12 +7,19 @@ public class PickUpItem : MonoBehaviour, IInteractable
 
     public string GetInteractText()
     {
+        if(Inventory.Instance.IsFull())
+        {
+            return "‚à‚¤‚¿‚«‚ê‚È‚¢";
+        }
         return "[F]" + _itemData.ItemName + "‚ğE‚¤";
     }
 
     public void Interact(PlayerInteraction player)
     {
-        Inventory.Instance.AddItem(_itemData);
-        Destroy(gameObject);
+        if(!Inventory.Instance.IsFull())
+        {
+           Destroy(gameObject);
+           Inventory.Instance.AddItem(_itemData);
+        }
     }
 } 

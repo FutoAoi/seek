@@ -32,13 +32,27 @@ public class FPSController : MonoBehaviour
 
     void Update()
     {
-        FPSCamera();
-        Move();
+        if (Inventory.Instance == null || Inventory.Instance.InventoryUI == null)
+        {
+            return;
+        }
+        if (!Inventory.Instance.InventoryUI.IsInventory)
+        {
+            FPSCamera();
+            Move();
+        }
     }
 
     private void FixedUpdate()
     {
-        _rb.velocity = _direction * _playerSpeed;
+        if (Inventory.Instance == null || Inventory.Instance.InventoryUI == null)
+        {
+            return;
+        }
+        if (!Inventory.Instance.InventoryUI.IsInventory)
+        {
+            _rb.velocity = _direction * _playerSpeed;
+        }
     }
 
     private void Move()

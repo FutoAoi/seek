@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: LiquarBottle
   m_EditorClassIdentifier: 
   _itemName: "\u9152\u74F6"
+  _tier: 0
   _spriteUI: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   _description: 
-  _value: 0
+  _value: 30
+  _worldPrefab: {fileID: 529895471681831175, guid: 57a25aa02b3ee7440a3e2f50bfe02e90,
+    type: 3}

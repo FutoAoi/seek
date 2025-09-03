@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class SceneChanger : MonoBehaviour
 {
+    [SerializeField] int _sceneIndex;
     public void OnPressed()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(_sceneIndex);
     }
 }
