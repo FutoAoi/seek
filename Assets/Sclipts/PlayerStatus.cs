@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerStatus : MonoBehaviour
@@ -45,6 +46,6 @@ public class PlayerStatus : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         AudioManager.instance.StartBgm(Bgms.GameOver);
-        StartCoroutine(GameManager.Instance.FadeAndChangeScene(3));
+        SceneManager.LoadScene(3);
     }
 }

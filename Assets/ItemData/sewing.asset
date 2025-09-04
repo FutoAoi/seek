@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85ec0274838fed14f86c23e91902b187, type: 3}
-  m_Name: LiquarBottle
+  m_Name: sewing
   m_EditorClassIdentifier: 
-  _itemName: "\u9152\u74F6"
-  _tier: 0
-  _spriteUI: {fileID: 21300000, guid: ae617c50a85af7845b7d41c178cf3484, type: 3}
+  _itemName: "\u30DF\u30B7\u30F3"
+  _tier: 2
+  _spriteUI: {fileID: 21300000, guid: fb9c04127588c604a8175703dc053abd, type: 3}
   _description: 
-  _value: 60
-  _worldPrefab: {fileID: 529895471681831175, guid: 57a25aa02b3ee7440a3e2f50bfe02e90,
+  _value: 300
+  _worldPrefab: {fileID: 4968069602585156311, guid: 03a9699f92997a34a9aca58f41a32d0d,
     type: 3}

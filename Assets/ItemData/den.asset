@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85ec0274838fed14f86c23e91902b187, type: 3}
-  m_Name: LiquarBottle
+  m_Name: den
   m_EditorClassIdentifier: 
-  _itemName: "\u9152\u74F6"
-  _tier: 0
-  _spriteUI: {fileID: 21300000, guid: ae617c50a85af7845b7d41c178cf3484, type: 3}
+  _itemName: "\u96FB\u5353"
+  _tier: 1
+  _spriteUI: {fileID: 21300000, guid: 542615ece21e4b24f8203a4895ffef2b, type: 3}
   _description: 
-  _value: 60
-  _worldPrefab: {fileID: 529895471681831175, guid: 57a25aa02b3ee7440a3e2f50bfe02e90,
+  _value: 280
+  _worldPrefab: {fileID: 5999818449782524814, guid: cc21c5c9114ba0842ae4e8283785e4cb,
     type: 3}

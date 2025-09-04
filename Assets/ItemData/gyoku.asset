@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85ec0274838fed14f86c23e91902b187, type: 3}
-  m_Name: LiquarBottle
+  m_Name: gyoku
   m_EditorClassIdentifier: 
-  _itemName: "\u9152\u74F6"
-  _tier: 0
-  _spriteUI: {fileID: 21300000, guid: ae617c50a85af7845b7d41c178cf3484, type: 3}
+  _itemName: "\u7389\u5C06"
+  _tier: 2
+  _spriteUI: {fileID: 21300000, guid: 637a8525b59745f41882e7758d1e241f, type: 3}
   _description: 
-  _value: 60
-  _worldPrefab: {fileID: 529895471681831175, guid: 57a25aa02b3ee7440a3e2f50bfe02e90,
+  _value: 250
+  _worldPrefab: {fileID: 3617346784304226739, guid: 4aac9694a76e51343b782ddb73d42cf2,
     type: 3}

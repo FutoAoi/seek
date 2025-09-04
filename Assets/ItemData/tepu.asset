@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85ec0274838fed14f86c23e91902b187, type: 3}
-  m_Name: LiquarBottle
+  m_Name: tepu
   m_EditorClassIdentifier: 
-  _itemName: "\u9152\u74F6"
+  _itemName: "\u30C6\u30FC\u30D7"
   _tier: 0
-  _spriteUI: {fileID: 21300000, guid: ae617c50a85af7845b7d41c178cf3484, type: 3}
+  _spriteUI: {fileID: 21300000, guid: f3444b92225971c4fb938e58b2d0bd1c, type: 3}
   _description: 
-  _value: 60
-  _worldPrefab: {fileID: 529895471681831175, guid: 57a25aa02b3ee7440a3e2f50bfe02e90,
+  _value: 100
+  _worldPrefab: {fileID: 3415278247162892501, guid: d3dc695e0ccc8f149b627d23dc43d72f,
     type: 3}
