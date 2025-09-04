@@ -20,6 +20,7 @@ public class PickUpItem : MonoBehaviour, IInteractable
         {
            Destroy(gameObject);
            Inventory.Instance.AddItem(_itemData);
+           AudioManager.instance.PlaySe(Ses.Get);
         }
     }
 } 

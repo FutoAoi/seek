@@ -22,6 +22,7 @@ public class FPSController : MonoBehaviour
 
     void Start()
     {
+        AudioManager.instance.StartBgm(Bgms.InGame);
         _rb = GetComponent<Rigidbody>();
         _cameraRot = _cam.transform.localRotation;
         _playerRot = this.transform.localRotation;

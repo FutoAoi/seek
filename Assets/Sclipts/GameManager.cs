@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour
     float _sens;
 
     public float Sens => _sens;
+    public float BgmVolume => _bgmVolume;
+    public float SeVolume => _seVolume;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -39,6 +42,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Application.targetFrameRate = 60;
+        AudioManager.instance.StartBgm(Bgms.Title);
     }
     void Update()
     {
@@ -46,11 +50,13 @@ public class GameManager : MonoBehaviour
         {
             _bgmVolume = _bgmSlider.value;
             _bgmText.text = _bgmVolume.ToString("0.0");
+            SetBgmSe();
         }
         if(_seSlider.value != _seVolume)
         {
             _seVolume = _seSlider.value;
             _seText.text = _seVolume.ToString("0.0");
+            SetBgmSe();
         }
         if(_sensSlider.value != _sens)
         {
@@ -65,6 +71,16 @@ public class GameManager : MonoBehaviour
     }
     void SetBgmSe()
     {
-
+        if (AudioManager.instance._bgmAudioSource.volume != GameManager.Instance.BgmVolume)
+        {
+            AudioManager.instance._bgmAudioSource.volume = GameManager.Instance.BgmVolume;
+        }
+        for (int i = 0; i < AudioManager.instance._seAudioSource.Length; i++)
+        {
+            if (AudioManager.instance._seAudioSource[i].volume != GameManager.Instance.SeVolume)
+            {
+                AudioManager.instance._seAudioSource[i].volume = GameManager.Instance.SeVolume;
+            }
+        }
     }
 }

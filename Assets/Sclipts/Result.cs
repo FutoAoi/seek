@@ -15,6 +15,8 @@ public class Result : MonoBehaviour
 
     void Start()
     {
+        AudioManager.instance.StartBgm(Bgms.None);
+        AudioManager.instance.PlaySe(Ses.Result);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         StartCoroutine(ResultUI());
@@ -31,8 +33,10 @@ public class Result : MonoBehaviour
                 _SumMoney.text = $"+ {Inventory.Instance.HaveItem[i].Value}‰~";
                 Totalvalue += Inventory.Instance.HaveItem[i].Value;
                 _TotalMoney.text = Totalvalue.ToString() + "‰~";
+                AudioManager.instance.PlaySe(Ses.Money);
                 yield return new WaitForSeconds(1);
             }
         }
+        AudioManager.instance.StartBgm(Bgms.Title);
     }
 }

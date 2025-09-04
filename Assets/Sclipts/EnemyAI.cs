@@ -20,6 +20,7 @@ public class EnemyAI : MonoBehaviour
     Quaternion rotate;
     Transform transformPlayer;
     PlayerStatus _playerStatus;
+    float _timer;
 
     private void Start()
     {
@@ -29,6 +30,7 @@ public class EnemyAI : MonoBehaviour
     }
     private void Update()
     {
+        _timer += Time.deltaTime;
         if (InSight())
         {
             directionToPlayer.y = 0;
@@ -36,7 +38,12 @@ public class EnemyAI : MonoBehaviour
             transform.rotation = InSightRotate;
             transform.position += directionToPlayer.normalized * moveSpeed * Time.deltaTime;
             _playerStatus.TakeDamage(1);
-            Debug.Log("å©Ç¬Ç©Ç¡ÇΩÅI");
+            if(_timer > 5f)
+            {
+                AudioManager.instance.PlaySe(Ses.See);
+                _timer = 0;
+            }
+            //Debug.Log("å©Ç¬Ç©Ç¡ÇΩÅI");
         }
         else
         {
