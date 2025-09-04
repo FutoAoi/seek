@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerStatus : MonoBehaviour
@@ -10,11 +7,23 @@ public class PlayerStatus : MonoBehaviour
     [Header("HPê›íË")]
     [SerializeField] int _maxHp = 100;
     [SerializeField] Image _hpGauge;
+    [SerializeField] TMP_Text _Timer;
     
     int _currentHp;
+    float _timar;
     void Start()
     {
         _currentHp = _maxHp;
+        _timar = GameManager.Instance.TimeUp;
+    }
+    private void Update()
+    {
+        _timar -= Time.deltaTime;
+        _Timer.text = _timar.ToString("000");
+        if(_timar < 0)
+        {
+            Die();
+        }
     }
 
     public void TakeDamage(int damage)
@@ -33,6 +42,9 @@ public class PlayerStatus : MonoBehaviour
     }
     private void Die()
     {
-        SceneManager.LoadScene(0);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        AudioManager.instance.StartBgm(Bgms.GameOver);
+        StartCoroutine(GameManager.Instance.FadeAndChangeScene(3));
     }
 }

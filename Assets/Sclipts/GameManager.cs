@@ -1,8 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -14,12 +13,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text _bgmText;
     [SerializeField] TMP_Text _seText;
     [SerializeField] TMP_Text _sensText;
-    [SerializeField] float _timeUp;
+    [SerializeField] float _timeUp = 180;
     [SerializeField] GameObject _optionPanel;
 
-    bool _inOption = false;
+    [SerializeField] Image _fadePanel;
+    [SerializeField] float _fadeSpeed = 1.0f;
 
-    float _time;
+    bool _inOption = false;
 
     float _bgmVolume;
     float _seVolume;
@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     public float Sens => _sens;
     public float BgmVolume => _bgmVolume;
     public float SeVolume => _seVolume;
+    public float TimeUp => _timeUp;
 
     private void Awake()
     {
@@ -46,19 +47,19 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        if(_bgmSlider.value != _bgmVolume)
+        if (_bgmSlider.value != _bgmVolume)
         {
             _bgmVolume = _bgmSlider.value;
             _bgmText.text = _bgmVolume.ToString("0.0");
             SetBgmSe();
         }
-        if(_seSlider.value != _seVolume)
+        if (_seSlider.value != _seVolume)
         {
             _seVolume = _seSlider.value;
             _seText.text = _seVolume.ToString("0.0");
             SetBgmSe();
         }
-        if(_sensSlider.value != _sens)
+        if (_sensSlider.value != _sens)
         {
             _sens = _sensSlider.value;
             _sensText.text = _sens.ToString("0.0");
@@ -82,5 +83,33 @@ public class GameManager : MonoBehaviour
                 AudioManager.instance._seAudioSource[i].volume = GameManager.Instance.SeVolume;
             }
         }
+    }
+
+    public IEnumerator FadeOut()
+    {
+        Color color = _fadePanel.color;  
+        while (color.a < 1.0f)          
+        {
+            color.a += Time.deltaTime * _fadeSpeed;  
+            _fadePanel.color = color;                
+            yield return null;                      
+        }
+    }
+
+    public IEnumerator FadeIn()
+    {
+        Color color = _fadePanel.color;  
+        while (color.a > 0.0f)          
+        {
+            color.a -= Time.deltaTime * _fadeSpeed;  
+            _fadePanel.color = color;                
+            yield return null;                      
+        }
+    }
+    public IEnumerator FadeAndChangeScene(int index)
+    {
+        yield return StartCoroutine(GameManager.Instance.FadeOut());
+        SceneManager.LoadScene(index);
+        yield return StartCoroutine(GameManager.Instance.FadeIn());
     }
 }

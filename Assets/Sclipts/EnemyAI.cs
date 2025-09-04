@@ -1,7 +1,4 @@
-using System.Collections;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -37,7 +34,7 @@ public class EnemyAI : MonoBehaviour
             Quaternion InSightRotate = Quaternion.LookRotation(directionToPlayer);
             transform.rotation = InSightRotate;
             transform.position += directionToPlayer.normalized * moveSpeed * Time.deltaTime;
-            _playerStatus.TakeDamage(1);
+            _playerStatus.TakeDamage(2);
             if(_timer > 5f)
             {
                 AudioManager.instance.PlaySe(Ses.See);

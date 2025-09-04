@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 public enum Bgms
 {
     None,
     Title,
-    InGame
+    InGame,
+    GameOver
 }
 public enum Ses
 {
@@ -22,6 +21,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] public AudioSource[] _seAudioSource;
     [SerializeField] AudioClip _inTitleBgm;
     [SerializeField] AudioClip _inGameBgm;
+    [SerializeField] AudioClip _gameOverBgm;
     [SerializeField] AudioClip _getSe;
     [SerializeField] AudioClip _ResultSe;
     [SerializeField] AudioClip _MoneySe;
@@ -62,6 +62,8 @@ public class AudioManager : MonoBehaviour
                 _bgmAudioSource.clip = _inTitleBgm; break;
             case Bgms.InGame:
                 _bgmAudioSource.clip = _inGameBgm; break;
+            case Bgms.GameOver:
+                _bgmAudioSource.clip = _gameOverBgm; break;
         }
         _bgmAudioSource.Play();
     }

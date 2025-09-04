@@ -13,15 +13,17 @@ public class FPSController : MonoBehaviour
     float x, z;
     float xRot, yRot;
     float _clanpYRot;
-    //bool _isWalking = false, _isRunnig = false;
+    bool _isWalking = false;
     Vector3 _direction;
     Vector3 _cameraForward;
     Quaternion _cameraRot, _playerRot;
     Quaternion _cameraRotate;
     Rigidbody _rb;
+    Animator _animator;
 
     void Start()
     {
+        _animator = GetComponent<Animator>();
         AudioManager.instance.StartBgm(Bgms.InGame);
         _rb = GetComponent<Rigidbody>();
         _cameraRot = _cam.transform.localRotation;
@@ -72,6 +74,13 @@ public class FPSController : MonoBehaviour
 
         _cameraRotate = Quaternion.LookRotation(_cameraForward);
         _direction = _cameraRotate * new Vector3(x, 0f, z);
+
+        _isWalking = false;
+        if (_direction.magnitude > 0.1f)
+        {
+            _isWalking = true;
+        }
+        _animator.SetBool("Walk",_isWalking);
     }
 
     private void FPSCamera()

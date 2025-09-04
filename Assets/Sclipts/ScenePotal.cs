@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class ScenePotal : MonoBehaviour, IInteractable
 {
@@ -12,6 +11,6 @@ public class ScenePotal : MonoBehaviour, IInteractable
 
     public void Interact(PlayerInteraction player)
     {
-        SceneManager.LoadScene(_indexScene);
+        StartCoroutine(GameManager.Instance.FadeAndChangeScene(_indexScene));
     }
 }
