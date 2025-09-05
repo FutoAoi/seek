@@ -15,6 +15,14 @@ public class SceneChanger : MonoBehaviour
     {
         GameManager.Instance.OpenOption();
     }
+    public void OnCredit()
+    {
+        GameManager.Instance.OpenCredit();
+    }
+    public void OnRule()
+    {
+        GameManager.Instance.OpenRule();
+    }
     public void QuitGame()
     {
         Application.Quit();

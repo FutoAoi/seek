@@ -16,10 +16,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] float _timeUp = 180;
     [SerializeField] GameObject _optionPanel;
 
+    [SerializeField] GameObject _creditPanel;
+    [SerializeField] GameObject _rulePanel;
+
     [SerializeField] Image _fadePanel;
     [SerializeField] float _fadeSpeed = 1.0f;
 
     bool _inOption = false;
+    bool _incredit = false;
+    bool _inrule = false;
 
     float _bgmVolume;
     float _seVolume;
@@ -111,5 +116,17 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(GameManager.Instance.FadeOut());
         SceneManager.LoadScene(index);
         yield return StartCoroutine(GameManager.Instance.FadeIn());
+    }
+
+    public void OpenCredit()
+    {
+        _incredit = !_incredit;
+        _creditPanel.SetActive(_incredit);
+    }
+
+    public void OpenRule()
+    {
+        _inrule = !_inrule;
+        _rulePanel.SetActive(_inrule);
     }
 }

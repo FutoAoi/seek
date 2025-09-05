@@ -46,6 +46,7 @@ public class PlayerStatus : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         AudioManager.instance.StartBgm(Bgms.GameOver);
+        Inventory.Instance.NoItem();
         SceneManager.LoadScene(3);
     }
 }

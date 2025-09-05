@@ -54,4 +54,11 @@ public class Inventory : MonoBehaviour
         }
         return true;
     }
+    public void NoItem()
+    {
+        for(int i = 0; i< HaveItem.Length; i++)
+        {
+            HaveItem[i] = null;
+        }
+    }
 }

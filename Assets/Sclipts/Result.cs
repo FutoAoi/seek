@@ -70,6 +70,7 @@ public class Result : MonoBehaviour
             _rankText.color = Color.yellow;
         }
         _animator.SetBool("rankShow", true);
+        Inventory.Instance.NoItem();
         AudioManager.instance.StartBgm(Bgms.Title);
     }
 }
